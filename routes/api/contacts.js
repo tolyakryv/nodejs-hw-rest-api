@@ -1,5 +1,6 @@
 const express = require("express");
 const contacts = require("../../models/contacts");
+const { generationError } = require("../../helpers");
 
 const Joi = require("joi");
 const router = express.Router();
@@ -14,7 +15,7 @@ router.get("/", async (_, res, next) => {
     const result = await contacts.listContacts();
     res.json(result);
   } catch (error) {
-    res.status(500).json({ message: "server error" });
+    next(error);
   }
 });
 
@@ -24,11 +25,11 @@ router.get("/:contactId", async (req, res, next) => {
     const result = await contacts.getContactById(id);
 
     if (!result) {
-      throw new Error();
+      throw generationError(404, "Not found");
     }
     res.json(result);
   } catch (error) {
-    res.status(404).json({ message: "Not found" });
+    next(error);
   }
 });
 
@@ -36,12 +37,12 @@ router.post("/", async (req, res, next) => {
   try {
     const { error } = contactsSchema.validate(req.body);
     if (error) {
-      throw error;
+      throw generationError(400, "missing required name field");
     }
     const result = await contacts.addContact(req.body);
     res.status(201).json(result);
   } catch (error) {
-    res.status(400).json({ message: "missing required name field" });
+    next(error);
   }
 });
 
@@ -50,11 +51,11 @@ router.delete("/:contactId", async (req, res, next) => {
     const id = req.params.contactId;
     const result = await contacts.removeContact(id);
     if (!result) {
-      throw new Error();
+      throw generationError(404, "Not found");
     }
     res.status(200).json({ message: "contact deleted" });
   } catch (error) {
-    res.status(404).json({ message: "Not found" });
+    next(error);
   }
 });
 
@@ -63,15 +64,16 @@ router.put("/:contactId", async (req, res, next) => {
     const id = req.params.contactId;
     const { error } = contactsSchema.validate(req.body);
     if (error) {
-      return res.status(400).json({ message: "missing fields" });
+      // return res.status(400).json({ message: "missing fields" });
+      throw generationError(400, "missing fields");
     }
     const result = await contacts.updateContact(id, req.body);
     if (!result) {
-      throw error;
+      throw generationError(404, "Not found");
     }
     res.status(200).json(result);
   } catch (error) {
-    res.status(404).json({ message: "Not found" });
+    next(error);
   }
 });
 
