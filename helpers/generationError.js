@@ -3,4 +3,5 @@ const generationError = (status, message) => {
   error.status = status;
   return error;
 };
+
 module.exports = generationError;
