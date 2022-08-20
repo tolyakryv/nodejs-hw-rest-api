@@ -1,4 +1,4 @@
 const generationError = require("./generationError");
 const ctrlWrapper = require("./ctrlWrapper");
-
-module.exports = { generationError, ctrlWrapper };
+const handleErrorSchema = require("./handleErrorSchema.js");
+module.exports = { generationError, ctrlWrapper, handleErrorSchema };

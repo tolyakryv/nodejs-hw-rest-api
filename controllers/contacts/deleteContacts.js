@@ -1,8 +1,8 @@
-const contacts = require("../../models/contacts");
+const { Contact } = require("../../models/contacts");
 const { generationError } = require("../../helpers");
 const deleteContacts = async (req, res) => {
   const id = req.params.contactId;
-  const result = await contacts.removeContact(id);
+  const result = await Contact.removeContact(id);
   if (!result) {
     throw generationError(404, "Not found");
   }
