@@ -1,4 +1,5 @@
 const { Schema, model } = require("mongoose");
+const Joi = require("joi");
 const { handleErrorSchema } = require("../helpers");
 
 const phoneRegexp = /^[(]{1}[0-9]{3}[)]{1} [0-9]{3}[-]{1}[0-9]{4}$/;
@@ -6,7 +7,7 @@ const contactSchema = new Schema(
   {
     name: {
       type: String,
-      required: [true, "name is required, must be exist unique"],
+      required: [true, "Set name for contact, must be exist unique"],
       unique: true,
     },
     email: {
@@ -30,7 +31,6 @@ contactSchema.post("save", handleErrorSchema);
 
 const Contact = model("contact", contactSchema);
 
-const Joi = require("joi");
 const contactsAddSchema = Joi.object({
   name: Joi.string().required(),
   email: Joi.string().required(),
@@ -38,4 +38,7 @@ const contactsAddSchema = Joi.object({
   favorite: Joi.boolean(),
 });
 
-module.exports = { Contact, contactsAddSchema };
+const contactsUpdateStatusSchema = Joi.object({
+  favorite: Joi.boolean().required(),
+});
+module.exports = { Contact, contactsAddSchema, contactsUpdateStatusSchema };
