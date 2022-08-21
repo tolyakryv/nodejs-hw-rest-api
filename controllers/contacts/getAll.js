@@ -1,6 +1,6 @@
 const { Contact } = require("../../models/contacts");
 const getAll = async (_, res) => {
-  const result = await Contact.find();
+  const result = await Contact.find({}, "-createdAt");
   res.json(result);
 };
 module.exports = getAll;

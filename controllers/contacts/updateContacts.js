@@ -6,7 +6,7 @@ const updateContacts = async (req, res) => {
   if (error) {
     throw generationError(400, "missing fields");
   }
-  const result = await Contact.updateContact(id, req.body);
+  const result = await Contact.findByIdAndUpdate(id, req.body, { new: true });
   if (!result) {
     throw generationError(404, "Not found");
   }

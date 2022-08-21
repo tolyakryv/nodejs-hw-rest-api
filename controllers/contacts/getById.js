@@ -1,9 +1,9 @@
-const contacts = require("../../models/contacts");
+const { Contact } = require("../../models/contacts");
 const { generationError } = require("../../helpers");
 const getById = async (req, res, next) => {
   try {
     const id = req.params.contactId;
-    const result = await contacts.getContactById(id);
+    const result = await Contact.findById(id);
 
     if (!result) {
       throw generationError(404, "Not found");

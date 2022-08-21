@@ -1,12 +1,12 @@
 const getAll = require("./getAll");
-// const getById = require("./getById");
+const getById = require("./getById");
 const addContact = require("./addContacts");
 // const deleteContacts = require("./deleteContacts");
-// const updateContacts = require("./updateContacts");
+const updateContacts = require("./updateContacts");
 module.exports = {
   getAll,
-  // getById,
+  getById,
   addContact,
   // deleteContacts,
-  // updateContacts,
+  updateContacts,
 };
