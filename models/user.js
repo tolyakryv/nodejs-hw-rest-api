@@ -33,10 +33,10 @@ const registerSchema = Joi.object({
   password: Joi.string().min(6).required(),
   repeat_password: Joi.ref("password"),
 });
-const schema = { registerSchema };
+const schemas = { registerSchema };
 
 const User = model("user", userSchema);
 module.exports = {
   User,
-  schema,
+  schemas,
 };
