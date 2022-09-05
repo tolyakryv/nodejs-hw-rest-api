@@ -38,7 +38,7 @@ userSchema.methods.validPassword = function (password) {
 const registerSchema = Joi.object({
   email: Joi.string().pattern(emailRegexp).required(),
   password: Joi.string().min(6).required(),
-  repeat_password: Joi.ref("password"),
+  // repeat_password: Joi.ref("password"),
   subscription: Joi.string(),
 });
 const loginSchema = Joi.object({
