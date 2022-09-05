@@ -15,6 +15,7 @@ const authenticate = async (req, res, next) => {
       next(generationError(401, "Not authorized"));
     }
     req.user = user;
+
     // res.status(200).json({
     //   email: user.email,
     //   subscription: user.subscription,
