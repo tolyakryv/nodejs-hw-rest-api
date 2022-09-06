@@ -18,7 +18,7 @@ const userSchema = new Schema(
       required: [true, "Set password for user"],
       minlength: 6,
     },
-
+    avatarURL: String,
     subscription: {
       type: String,
       enum: subscriptionType,
