@@ -14,7 +14,7 @@ const updateAvatar = async (req, res) => {
     const image = await jimp.read(tmpUpload);
     await image.resize(250, 250);
     // Save and overwrite the image
-    await image.writeAsync(resultUpload);
+    await image.writeAsync(tmpUpload);
 
     await fs.rename(tmpUpload, resultUpload);
     const avatarURL = path.join("avatar", resultUpload);
