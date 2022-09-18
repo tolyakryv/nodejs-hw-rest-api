@@ -1,7 +1,8 @@
 const bcrypt = require("bcryptjs");
 const gravatar = require("gravatar");
-const nanoid = require("nanoid");
-const { PORT } = process.env;
+// const nanoid = require("nanoid");
+const { v4: uuidv4 } = require("uuid");
+const { PORT = 3000 } = process.env;
 const { User } = require("../../models/user");
 const { generationError, sendEmail } = require("../../helpers");
 
@@ -14,7 +15,7 @@ const register = async (req, res) => {
     throw generationError(409, "Email in use");
   }
   const hashPassword = await bcrypt.hash(password, salt);
-  const verificationToken = nanoid();
+  const verificationToken = uuidv4();
   const avatarURL = gravatar.url(email);
   const result = await User.create({
     email,
@@ -26,8 +27,9 @@ const register = async (req, res) => {
   const mail = {
     to: email,
     subject: "підтвердження реєстрації",
-    html: `<a href="http://localhost:${PORT}/api/auth/users/verify/:${verificationToken}" 
-    target="_blank" >Перейдіть за посилання для підтвердження реєстрації</a>`,
+    html: `<a href="http://localhost:${PORT}/api/auth/users/verify/${verificationToken}" 
+    target="_blank" >Перейдіть за посилання для підтвердження реєстрації
+    <br>http://localhost:${PORT}/api/auth/users/verify/${verificationToken}</a>`,
   };
   await sendEmail(mail);
   res.status(201).json({
