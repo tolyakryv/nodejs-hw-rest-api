@@ -10,6 +10,9 @@ const login = async (req, res) => {
   if (!user) {
     throw generationError(401, "Email or password is wrong");
   }
+  if (!user.verify) {
+    throw generationError(401, "User email not verify");
+  }
   const comparePassword = await user.validPassword(password);
   //   const comparePassword = await bcrypt.compare(password, user.password);
   if (!comparePassword) {
